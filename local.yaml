@@ -1,0 +1,47 @@
+# All references from this file to other files should be relative links from this file's location.
+version: '3'
+services:
+
+  my_api:
+    container_name: my_api
+    build:
+      context: .
+      dockerfile: ./my_api/Dockerfile
+    command:
+      - "flask"
+      - "run"
+      - "--port"
+      - "5000"
+      - "--host"
+      - "0.0.0.0"
+      - "--reload"
+    ports:
+      - 5000:5000
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py
+      FLASK_DEBUG: 0 # Needed, but its not entirely clear why... See https://github.com/ga4gh/ga4gh-server/issues/791
+    volumes:
+      - ./my_api/src/request_parsers:/usr/src/my_api/src/request_parsers
+      - ./my_api/src/models:/usr/src/my_api/src/models
+      - ./my_api/src/controllers:/usr/src/my_api/src/controllers
+      - ./my_api/src/app.py:/usr/src/my_api/src/app.py
+      - ./my_api/src/__init__.py:/usr/src/my_api/src/__init__.py
+      - ./housekeeping_flask/src/exceptions:/usr/src/my_api/src/exceptions
+      - ./housekeeping_flask/src/request_parsers/housekeeping_utilties.py:/usr/src/my_api/src/request_parsers/housekeeping_utilties.py
+      - ./housekeeping_flask/src/server_utilities.py:/usr/src/my_api/src/server_utilities.py
+      - ./scripts/create_zappa_package.sh:/usr/src/scripts/create_zappa_package.sh # Only needed while deployment development is ongoing.
+      - ./my_api/zappa_settings.json:/usr/src/my_api/zappa_settings.json # Needed to deploy.
+    networks:
+      - backend_service_network
+    healthcheck:
+      test:
+        - "CMD"
+        - "curl"
+        - "http://localhost:5000/internal/healthCheck"
+      interval: 3s
+      timeout: 1s
+
+networks:
+  backend_service_network: # Service to service communication.
+    driver: bridge

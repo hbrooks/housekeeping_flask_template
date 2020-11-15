@@ -1,0 +1,3 @@
+[submodule "housekeeping_flask"]
+	path = housekeeping_flask
+	url = https://github.com/hbrooks/housekeeping_flask

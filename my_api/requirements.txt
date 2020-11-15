@@ -1,0 +1,11 @@
+flask
+flask_cors==3.0.8
+# pymysql
+# mysqlclient
+# flask-sqlalchemy==2.4.0
+# flask_sqlalchemy_session
+pyopenssl
+requests
+pyjwt
+werkzeug
+boto3
