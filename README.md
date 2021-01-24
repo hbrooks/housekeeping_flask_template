@@ -1,8 +1,12 @@
 ## HouseKeeping (Flask) Template Repository
 This repository allows one to quickly create a Flask service.  The service can be run locally in a Docker container and then easily deployed to AWS Lambda.
 
-### How to Run the Service Locally
-1.  `./scripts/start.sh`
+### How to Set Up the Service
+1.  `git clone` the repo that uses this as a template
+1.  `git submodule init` or `sync` or `update`, I'm not sure which works but I don't think running all of them hurts!
+1.  `./scripts/start_containers.sh`
+   -  Note: If you run into an issue related to a file in housekeeping_flask/ being recognized as a directory instead of a file, you probably tried to start the containers before getting the submodule contents.  Redownload the submodule, prune you containers, and volumes and retry.
+
 
 ### Submodules as Dependencies
 -  To show submodules: `git config --file=.gitmodules -l` (from https://tech.serhatteker.com/post/2019-01/changing-git-submodules-urlbranch-to/)
